@@ -1,12 +1,14 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Lock, KeyRound, Eye, EyeOff, Check, X, AlertTriangle } from 'lucide-react';
+import { Shield, Lock, KeyRound, Eye, EyeOff, Check, X, AlertTriangle, XCircle } from 'lucide-react';
 import { useVaultStore } from '@/store/useVaultStore';
+import { useGuideStore } from '@/store/useGuideStore';
 import { calculateStrength } from '@/utils/passwordGenerator';
 
 export default function Unlock() {
   const navigate = useNavigate();
   const { isInitialized, unlock, initializeVault } = useVaultStore();
+  const { settings, setShowUnlockIntro } = useGuideStore();
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -88,8 +90,16 @@ export default function Unlock() {
             </p>
           </div>
 
-          {!isInitialized && (
-            <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl animate-fade-in">
+          {!isInitialized && settings.showUnlockIntro && (
+            <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl animate-fade-in relative pr-10">
+              <button
+                type="button"
+                onClick={() => setShowUnlockIntro(false)}
+                className="absolute top-2 right-2 p-1.5 text-slate-500 hover:text-slate-300 transition-colors rounded-md hover:bg-white/5"
+                title="关闭提示"
+              >
+                <XCircle className="w-4 h-4" />
+              </button>
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
                 <div className="space-y-1">
@@ -101,6 +111,16 @@ export default function Unlock() {
                 </div>
               </div>
             </div>
+          )}
+
+          {!isInitialized && !settings.showUnlockIntro && (
+            <button
+              type="button"
+              onClick={() => setShowUnlockIntro(true)}
+              className="w-full mb-4 p-2 border border-dashed border-slate-700 rounded-lg text-xs text-slate-500 hover:text-slate-300 hover:border-slate-600 transition-all"
+            >
+              显示首次使用提示
+            </button>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">

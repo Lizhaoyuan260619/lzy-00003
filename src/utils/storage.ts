@@ -3,6 +3,7 @@ import type { VaultMeta, EncryptedData } from '../types';
 // localStorage 键名常量
 export const META_KEY = 'pm_vault_meta';
 export const DATA_KEY = 'pm_vault_data';
+export const GUIDE_KEY = 'pm_vault_guide_settings';
 
 // 读取保险库元数据，不存在则返回 null
 export function getMeta(): VaultMeta | null {
@@ -48,11 +49,12 @@ export function setData(data: EncryptedData): void {
   }
 }
 
-// 清除全部保险库数据（meta + data）
+// 清除全部保险库数据（meta + data + guide）
 export function clearAll(): void {
   try {
     localStorage.removeItem(META_KEY);
     localStorage.removeItem(DATA_KEY);
+    localStorage.removeItem(GUIDE_KEY);
   } catch (e) {
     console.error('清除数据失败:', e);
     throw e;
