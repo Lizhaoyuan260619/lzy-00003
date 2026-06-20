@@ -261,6 +261,18 @@ export default function Settings() {
                 <p className="text-xs text-slate-500">导出或导入您的密码数据</p>
               </div>
             </div>
+
+            <div className="mb-4 p-4 bg-white/5 rounded-xl space-y-2">
+              <p className="text-xs text-slate-400 leading-relaxed">
+                <span className="text-slate-300 font-medium">什么是备份？</span>
+                备份就是把您的所有密码保存成一个文件，存到电脑上。如果浏览器数据丢失，可以用这个文件恢复。
+              </p>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                <span className="text-slate-300 font-medium">导入会怎样？</span>
+                导入会用备份文件中的数据覆盖当前所有密码，请确保文件是最新的。
+              </p>
+            </div>
+
             {!showExportConfirm ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <button
@@ -273,7 +285,7 @@ export default function Settings() {
                     </div>
                     <div>
                       <p className="font-medium text-slate-200">导出备份</p>
-                      <p className="text-xs text-slate-500">将数据保存为 JSON 文件</p>
+                      <p className="text-xs text-slate-500">将密码保存为文件下载到电脑</p>
                     </div>
                   </div>
                 </button>
@@ -284,7 +296,7 @@ export default function Settings() {
                     </div>
                     <div>
                       <p className="font-medium text-slate-200">导入备份</p>
-                      <p className="text-xs text-slate-500">从 JSON 文件恢复数据</p>
+                      <p className="text-xs text-slate-500">从之前的备份文件恢复数据</p>
                     </div>
                   </div>
                   <input type="file" accept=".json" onChange={handleImport} className="hidden" />
@@ -292,9 +304,19 @@ export default function Settings() {
               </div>
             ) : (
               <div className="p-4 bg-safety/5 border border-safety/20 rounded-xl animate-fade-in space-y-4">
-                <div className="flex items-start gap-3 text-sm text-slate-300">
-                  <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-safety" />
-                  <p>导出的文件包含您所有的密码数据（未加密明文）。请将其保存在安全的位置。</p>
+                <div className="space-y-3">
+                  <div className="flex items-start gap-3 text-sm text-slate-300">
+                    <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5 text-safety" />
+                    <div>
+                      <p className="font-medium text-slate-200 mb-1">导出说明</p>
+                      <ul className="text-xs text-slate-400 space-y-1 list-disc list-inside">
+                        <li>导出文件包含您所有的密码明文，未经加密</li>
+                        <li>请将文件保存到安全的位置，不要发送给他人</li>
+                        <li>建议存放在 U 盘或加密文件夹中</li>
+                        <li>文件格式为 JSON，可被本应用识别导入</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
                 <div className="flex gap-3">
                   <button

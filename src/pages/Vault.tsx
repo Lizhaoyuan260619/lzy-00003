@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Search, Plus, Copy, Eye, EyeOff, Pencil, Trash2, Folder, Globe, Star, StarOff, Zap } from 'lucide-react';
+import { Search, Plus, Copy, Eye, EyeOff, Pencil, Trash2, Folder, Globe, Star, StarOff, Zap, Key, Dices, FolderOpen, ArrowRight } from 'lucide-react';
 import { useVaultStore } from '@/store/useVaultStore';
 import GeneratorModal from '@/components/modals/GeneratorModal';
 
@@ -212,25 +212,87 @@ export default function Vault() {
             </div>
 
             {filteredEntries.length === 0 ? (
-              <div className="glass-card p-12 text-center animate-fade-in">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
-                  <Search className="w-8 h-8 text-slate-500" />
-                </div>
-                <h3 className="text-lg font-semibold text-slate-200 mb-1">
-                  {entries.length === 0 ? '暂无密码记录' : '没有匹配的结果'}
-                </h3>
-                <p className="text-sm text-slate-500 mb-4">
-                  {entries.length === 0 ? '点击「添加密码」开始管理您的凭证' : '尝试修改搜索条件或筛选分类'}
-                </p>
-                {entries.length === 0 && (
+              entries.length === 0 ? (
+                <div className="glass-card p-8 animate-fade-in">
+                  <div className="text-center mb-6">
+                    <div className="w-16 h-16 rounded-2xl bg-safety/15 border border-safety/30 flex items-center justify-center mx-auto mb-4">
+                      <Key className="w-8 h-8 text-safety" />
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-100 mb-1">开始使用 VaultPass</h3>
+                    <p className="text-sm text-slate-400">按照以下步骤，快速保存您的第一个账号密码</p>
+                  </div>
+
+                  <div className="space-y-3 mb-6">
+                    <div
+                      className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer group"
+                      onClick={() => openModal()}
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-safety/15 flex items-center justify-center shrink-0">
+                        <span className="text-safety font-bold text-sm">1</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-200">点击「添加密码」按钮</p>
+                        <p className="text-xs text-slate-500">填写网站名称、用户名和密码</p>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-slate-500 group-hover:text-safety transition-colors" />
+                    </div>
+
+                    <div
+                      className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer group"
+                      onClick={() => openModal()}
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-accent/15 flex items-center justify-center shrink-0">
+                        <span className="text-accent font-bold text-sm">2</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-200">使用密码生成器创建强密码</p>
+                        <p className="text-xs text-slate-500">在添加窗口中点击「打开密码生成器」</p>
+                      </div>
+                      <Dices className="w-4 h-4 text-slate-500 group-hover:text-accent transition-colors" />
+                    </div>
+
+                    <div
+                      className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all cursor-pointer group"
+                      onClick={() => openModal()}
+                    >
+                      <div className="w-10 h-10 rounded-lg bg-blue-500/15 flex items-center justify-center shrink-0">
+                        <span className="text-blue-400 font-bold text-sm">3</span>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-200">选择分类，方便后续查找</p>
+                        <p className="text-xs text-slate-500">默认已提供社交、金融、工作等分类</p>
+                      </div>
+                      <FolderOpen className="w-4 h-4 text-slate-500 group-hover:text-blue-400 transition-colors" />
+                    </div>
+
+                    <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                      <div className="w-10 h-10 rounded-lg bg-purple-500/15 flex items-center justify-center shrink-0">
+                        <Star className="w-4 h-4 text-purple-400" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-slate-200">设为常用，一键复制</p>
+                        <p className="text-xs text-slate-500">添加后点击星标，常用密码会显示在顶部快捷区</p>
+                      </div>
+                    </div>
+                  </div>
+
                   <button
                     onClick={() => openModal()}
-                    className="px-5 py-2 bg-safety hover:bg-safety-hover text-vault font-medium rounded-lg transition-all text-sm"
+                    className="w-full py-3 bg-safety hover:bg-safety-hover text-vault font-semibold rounded-lg transition-all flex items-center justify-center gap-2"
                   >
-                    添加第一条记录
+                    <Plus className="w-4 h-4" />
+                    添加第一条密码
                   </button>
-                )}
-              </div>
+                </div>
+              ) : (
+                <div className="glass-card p-12 text-center animate-fade-in">
+                  <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-4">
+                    <Search className="w-8 h-8 text-slate-500" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-slate-200 mb-1">没有匹配的结果</h3>
+                  <p className="text-sm text-slate-500">尝试修改搜索条件或筛选分类</p>
+                </div>
+              )
             ) : (
               <div className="space-y-3">
                 {filteredEntries.map((entry, idx) => (
